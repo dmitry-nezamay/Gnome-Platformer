@@ -3,16 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = System.Random;
 
-public class CoinsInstantiate : MonoBehaviour
+public class CoinsSpawner : MonoBehaviour
 {
     private static Random _random = new Random();
 
-    [SerializeField] private Coin _coinPrefab;
-    [SerializeField] private GameObject _coinSpawnPoints;
+    [SerializeField] private Coin _prefab;
+    [SerializeField] private GameObject _spawnPoints;
     [SerializeField] private float _periodicity;
 
     private WaitForSeconds _delay;
     private CoinSpawnPoint[] _points;
+
+    private void Awake()
+    {
+        _delay = new WaitForSeconds(_periodicity);
+        _points = _spawnPoints.GetComponentsInChildren<CoinSpawnPoint>();
+
+        foreach (CoinSpawnPoint point in _points)
+            point.SetFree();
+
+        StartCoroutine(CreateCoins());
+    }
 
     private IEnumerator CreateCoins()
     {
@@ -37,22 +48,11 @@ public class CoinsInstantiate : MonoBehaviour
                     gotFreePoint = point.IsFree;
                 }
 
-                Coin newCoin = Instantiate(_coinPrefab);
+                Coin newCoin = Instantiate(_prefab);
                 newCoin.SetToPoint(point);
             }
 
             yield return _delay;
         }
-    }
-
-    private void Awake()
-    {
-        _delay = new WaitForSeconds(_periodicity);
-        _points = _coinSpawnPoints.GetComponentsInChildren<CoinSpawnPoint>();
-
-        foreach (CoinSpawnPoint point in _points)
-            point.SetFree();
-
-        StartCoroutine(CreateCoins());
     }
 }

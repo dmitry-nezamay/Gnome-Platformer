@@ -10,6 +10,11 @@ public class Coin : MonoBehaviour
     public float LifeSpan { get; private set; }
     public CoinSpawnPoint Point { get; private set; }
 
+    private void Awake()
+    {
+        LifeSpan = 0;
+    }
+
     public void SetToPoint(CoinSpawnPoint point)
     {
         if (point != null)
@@ -19,11 +24,6 @@ public class Coin : MonoBehaviour
             transform.position = point.transform.position;
             transform.rotation = Quaternion.identity;
         }
-    }
-
-    private void Awake()
-    {
-        LifeSpan = 0;
     }
 
     private void Update()

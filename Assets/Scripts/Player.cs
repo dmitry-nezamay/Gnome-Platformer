@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(SpriteRenderer))]
+[RequireComponent(typeof(Rigidbody2D))]
+
 public class Player : MonoBehaviour
 {
     private static float _speed = 3;
@@ -9,7 +12,6 @@ public class Player : MonoBehaviour
 
     private SpriteRenderer _renderer;
     private Rigidbody2D _rigidbody;
-    private Animator _animator;
 
     public int CoinsCounter { get; private set; }
 
@@ -17,7 +19,6 @@ public class Player : MonoBehaviour
     {
         _renderer = GetComponent<SpriteRenderer>();
         _rigidbody = GetComponent<Rigidbody2D>();
-        _animator = GetComponent<Animator>();
         CoinsCounter = 0;
     }
 
@@ -49,12 +50,7 @@ public class Player : MonoBehaviour
         if (collision.TryGetComponent<Coin>(out Coin coin))
         {
             CoinsCounter++;
-            Debug.Log($"Собрано {CoinsCounter} монет");
             Destroy(coin.gameObject);
-        }
-        else if (collision.TryGetComponent<Enemy>(out Enemy enemy)) 
-        {
-            Debug.Log("Опасность!");
         }
     }
 }

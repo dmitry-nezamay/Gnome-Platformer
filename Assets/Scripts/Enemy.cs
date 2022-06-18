@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+[RequireComponent(typeof(SpriteRenderer))]
+
 public class Enemy : MonoBehaviour
 {
     private static float _speed = 3;
@@ -36,7 +38,7 @@ public class Enemy : MonoBehaviour
             {
                 int currentIndex = Array.IndexOf(_points, point);
 
-                if (currentIndex != -1)
+                if (currentIndex >= 0)
                 {
                     int nextIndex = (currentIndex == _points.Length - 1) ? 0 : currentIndex + 1;
                     _nextPoint = _points[nextIndex];
