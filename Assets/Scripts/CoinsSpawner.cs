@@ -20,7 +20,7 @@ public class CoinsSpawner : MonoBehaviour
         _points = _spawnPoints.GetComponentsInChildren<CoinSpawnPoint>();
 
         foreach (CoinSpawnPoint point in _points)
-            point.SetFree();
+            point.Free();
 
         StartCoroutine(CreateCoins());
     }
@@ -31,12 +31,12 @@ public class CoinsSpawner : MonoBehaviour
 
         while (isPlaying)
         {
-            bool isFreePoint = false;
+            bool isAnyFreePoint = false;
 
             foreach (CoinSpawnPoint point in _points)
-                isFreePoint = isFreePoint || point.IsFree;
+                isAnyFreePoint = isAnyFreePoint || point.IsFree;
 
-            if (isFreePoint)
+            if (isAnyFreePoint)
             {
                 CoinSpawnPoint point = null;
                 bool gotFreePoint = false;

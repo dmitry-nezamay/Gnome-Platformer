@@ -20,7 +20,7 @@ public class Coin : MonoBehaviour
         if (point != null)
         {
             Point = point;
-            point.SetOccupied();
+            point.Occupy();
             transform.position = point.transform.position;
             transform.rotation = Quaternion.identity;
         }
@@ -37,6 +37,6 @@ public class Coin : MonoBehaviour
     private void OnDestroy()
     {
         if (Point != null)
-            Point.SetFree();
+            Point.Free();
     }
 }

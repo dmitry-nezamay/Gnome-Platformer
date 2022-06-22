@@ -7,12 +7,12 @@ public class CoinSpawnPoint : MonoBehaviour
 {
     public bool IsFree { get; private set; }
 
-    public void SetFree()
+    public void Free()
     {
         IsFree = true;
     }
 
-    public void SetOccupied()
+    public void Occupy()
     {
         IsFree = false;
     }

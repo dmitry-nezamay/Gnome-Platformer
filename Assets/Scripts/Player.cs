@@ -27,17 +27,11 @@ public class Player : MonoBehaviour
         Vector3 vector = new Vector3();
         float deltaTime = Time.deltaTime;
 
-        if (Input.GetKey(KeyCode.LeftArrow))
+        if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow))
         {
-            vector = new Vector3(-1 * _speed * deltaTime, 0, 0);
+            vector = new Vector3((Input.GetKey(KeyCode.LeftArrow) ? -1 : 1) * _speed * deltaTime, 0, 0);
             transform.Translate(vector);
-            _renderer.flipX = true;
-        }
-        else if (Input.GetKey(KeyCode.RightArrow))
-        {
-            vector = new Vector3(_speed * deltaTime, 0, 0);
-            transform.Translate(vector);
-            _renderer.flipX = false;
+            _renderer.flipX = Input.GetKey(KeyCode.LeftArrow);
         }
         else if (Input.GetKey(KeyCode.UpArrow))
         {
