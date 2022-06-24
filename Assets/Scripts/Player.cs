@@ -22,23 +22,6 @@ public class Player : MonoBehaviour
         CoinsCounter = 0;
     }
 
-    private void Update()
-    {
-        Vector3 vector = new Vector3();
-        float deltaTime = Time.deltaTime;
-
-        if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow))
-        {
-            vector = new Vector3((Input.GetKey(KeyCode.LeftArrow) ? -1 : 1) * _speed * deltaTime, 0, 0);
-            transform.Translate(vector);
-            _renderer.flipX = Input.GetKey(KeyCode.LeftArrow);
-        }
-        else if (Input.GetKey(KeyCode.UpArrow))
-        {
-            _rigidbody.AddForce(Vector3.up * _jumpForce);
-        }
-    }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.TryGetComponent<Coin>(out Coin coin))
@@ -46,5 +29,17 @@ public class Player : MonoBehaviour
             CoinsCounter++;
             Destroy(coin.gameObject);
         }
+    }
+
+    public void OnMoveLeftRight(bool isMovingLeft)
+    {
+        Vector3 vector = new Vector3((isMovingLeft ? -1 : 1) * _speed * Time.deltaTime, 0, 0);
+        transform.Translate(vector);
+        _renderer.flipX = isMovingLeft;
+    }
+
+    public void OnMoveUp()
+    {
+        _rigidbody.AddForce(Vector3.up * _jumpForce);
     }
 }

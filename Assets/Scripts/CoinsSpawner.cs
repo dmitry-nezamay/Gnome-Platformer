@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = System.Random;
+using System.Linq;
+using System;
 
 public class CoinsSpawner : MonoBehaviour
 {
@@ -31,25 +33,12 @@ public class CoinsSpawner : MonoBehaviour
 
         while (isPlaying)
         {
-            bool isAnyFreePoint = false;
+            CoinSpawnPoint[] freePoints = _points.Where(point => point.IsFree).OrderBy(point => _random.Next()).ToArray();
 
-            foreach (CoinSpawnPoint point in _points)
-                isAnyFreePoint = isAnyFreePoint || point.IsFree;
-
-            if (isAnyFreePoint)
+            if (freePoints.Length > 0)
             {
-                CoinSpawnPoint point = null;
-                bool gotFreePoint = false;
-
-                while (gotFreePoint == false)
-                {
-                    int pointIndex = _random.Next(0, _points.Length);
-                    point = _points[pointIndex];
-                    gotFreePoint = point.IsFree;
-                }
-
                 Coin newCoin = Instantiate(_prefab);
-                newCoin.SetToPoint(point);
+                newCoin.SetToPoint(freePoints[0]);
             }
 
             yield return _delay;
