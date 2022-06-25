@@ -1,18 +1,32 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class PlayerInput : MonoBehaviour
 {
-    [SerializeField] private Player _player;
+    public static Action<string> OnPlayerInput;
+
+    public static class Directions
+    {
+        public const string None = nameof(None);
+        public const string Left = nameof(Left);
+        public const string Right = nameof(Right);
+        public const string Up = nameof(Up);
+    }
 
     private void Update()
     {
+        string Direction = Directions.None;
+
         if (Input.GetKey(KeyCode.LeftArrow))
-            _player.OnMoveLeftRight(true);
+            Direction = Directions.Left;
         else if (Input.GetKey(KeyCode.RightArrow))
-            _player.OnMoveLeftRight(false);
+            Direction = Directions.Right;
         else if (Input.GetKey(KeyCode.UpArrow))
-            _player.OnMoveUp();
+            Direction = Directions.Up;
+
+        if (Direction != Directions.None)
+            OnPlayerInput?.Invoke(Direction);
     }
 }

@@ -22,6 +22,16 @@ public class Player : MonoBehaviour
         CoinsCounter = 0;
     }
 
+    private void OnEnable()
+    {
+        PlayerInput.OnPlayerInput += OnMove;
+    }
+
+    private void OnDisable()
+    {
+        PlayerInput.OnPlayerInput += OnMove;
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.TryGetComponent<Coin>(out Coin coin))
@@ -31,7 +41,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void OnMoveLeftRight(bool isMovingLeft)
+    public void OnMoveSideways(bool isMovingLeft)
     {
         Vector3 vector = new Vector3((isMovingLeft ? -1 : 1) * _speed * Time.deltaTime, 0, 0);
         transform.Translate(vector);
@@ -41,5 +51,15 @@ public class Player : MonoBehaviour
     public void OnMoveUp()
     {
         _rigidbody.AddForce(Vector3.up * _jumpForce);
+    }
+
+    public void OnMove(string direction)
+    {
+        if (direction == PlayerInput.Directions.Left)
+            OnMoveSideways(true);
+        else if (direction == PlayerInput.Directions.Right)
+            OnMoveSideways(false);
+        else if (direction == PlayerInput.Directions.Up)
+            OnMoveUp();
     }
 }
