@@ -5,15 +5,27 @@ using UnityEngine.Events;
 
 public class CoinSpawnPoint : MonoBehaviour
 {
-    public bool IsFree { get; private set; }
+    [SerializeField] private Coin _coinPrefab;
 
-    public void Free()
+    public Coin CoinInPoint { get; private set; }
+
+    private void Awake()
     {
-        IsFree = true;
+        CoinInPoint = null;
     }
 
-    public void Occupy()
+    public void Free(Coin destroyedCoin)
     {
-        IsFree = false;
+        if (CoinInPoint == destroyedCoin)
+        {
+            CoinInPoint = null;
+            Coin.OnDestroyed -= Free;
+        }
+    }
+
+    public void SpawnCoin()
+    {
+        CoinInPoint = Instantiate(_coinPrefab, transform.position, Quaternion.identity);
+        Coin.OnDestroyed += Free;
     }
 }

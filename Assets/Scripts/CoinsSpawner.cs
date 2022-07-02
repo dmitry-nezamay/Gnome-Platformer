@@ -9,7 +9,6 @@ public class CoinsSpawner : MonoBehaviour
 {
     private static Random _random = new Random();
 
-    [SerializeField] private Coin _prefab;
     [SerializeField] private GameObject _spawnPoints;
     [SerializeField] private float _periodicity;
 
@@ -20,10 +19,6 @@ public class CoinsSpawner : MonoBehaviour
     {
         _delay = new WaitForSeconds(_periodicity);
         _points = _spawnPoints.GetComponentsInChildren<CoinSpawnPoint>();
-
-        foreach (CoinSpawnPoint point in _points)
-            point.Free();
-
         StartCoroutine(CreateCoins());
     }
 
@@ -33,13 +28,10 @@ public class CoinsSpawner : MonoBehaviour
 
         while (isPlaying)
         {
-            CoinSpawnPoint[] freePoints = _points.Where(point => point.IsFree).OrderBy(point => _random.Next()).ToArray();
+            CoinSpawnPoint[] freePoints = _points.Where(point => point.CoinInPoint == null).OrderBy(point => _random.Next()).ToArray();
 
             if (freePoints.Length > 0)
-            {
-                Coin newCoin = Instantiate(_prefab);
-                newCoin.SetToPoint(freePoints[0]);
-            }
+                freePoints[0].SpawnCoin();
 
             yield return _delay;
         }

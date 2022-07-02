@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class Coin : MonoBehaviour
 {
-    [SerializeField] private float _maxLifeSpan;
+    private static float _maxLifeSpan = 5f;
 
-    public CoinSpawnPoint Point { get; private set; }
+    public static Action<Coin> OnDestroyed;
 
     private void Awake()
     {
@@ -15,18 +16,6 @@ public class Coin : MonoBehaviour
 
     private void OnDestroy()
     {
-        if (Point != null)
-            Point.Free();
-    }
-
-    public void SetToPoint(CoinSpawnPoint point)
-    {
-        if (point != null)
-        {
-            Point = point;
-            point.Occupy();
-            transform.position = point.transform.position;
-            transform.rotation = Quaternion.identity;
-        }
+        OnDestroyed?.Invoke(this);
     }
 }
