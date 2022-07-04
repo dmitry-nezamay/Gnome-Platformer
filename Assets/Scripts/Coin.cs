@@ -7,7 +7,7 @@ public class Coin : MonoBehaviour
 {
     private static float _maxLifeSpan = 5f;
 
-    public static Action<Coin> OnDestroyed;
+    public static event Action<Coin> Destroyed;
 
     private void Awake()
     {
@@ -16,6 +16,6 @@ public class Coin : MonoBehaviour
 
     private void OnDestroy()
     {
-        OnDestroyed?.Invoke(this);
+        Destroyed?.Invoke(this);
     }
 }

@@ -24,12 +24,12 @@ public class Player : MonoBehaviour
 
     private void OnEnable()
     {
-        PlayerInput.OnPlayerInput += OnMove;
+        PlayerInput.Input += OnMove;
     }
 
     private void OnDisable()
     {
-        PlayerInput.OnPlayerInput += OnMove;
+        PlayerInput.Input -= OnMove;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

@@ -5,7 +5,7 @@ using System;
 
 public class PlayerInput : MonoBehaviour
 {
-    public static Action<string> OnPlayerInput;
+    public static event Action<string> Input;
 
     public static class Directions
     {
@@ -19,14 +19,14 @@ public class PlayerInput : MonoBehaviour
     {
         string Direction = Directions.None;
 
-        if (Input.GetKey(KeyCode.LeftArrow))
+        if (UnityEngine.Input.GetKey(KeyCode.LeftArrow))
             Direction = Directions.Left;
-        else if (Input.GetKey(KeyCode.RightArrow))
+        else if (UnityEngine.Input.GetKey(KeyCode.RightArrow))
             Direction = Directions.Right;
-        else if (Input.GetKey(KeyCode.UpArrow))
+        else if (UnityEngine.Input.GetKey(KeyCode.UpArrow))
             Direction = Directions.Up;
 
         if (Direction != Directions.None)
-            OnPlayerInput?.Invoke(Direction);
+            Input?.Invoke(Direction);
     }
 }

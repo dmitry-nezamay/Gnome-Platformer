@@ -19,13 +19,13 @@ public class CoinSpawnPoint : MonoBehaviour
         if (CoinInPoint == destroyedCoin)
         {
             CoinInPoint = null;
-            Coin.OnDestroyed -= Free;
+            Coin.Destroyed -= Free;
         }
     }
 
     public void SpawnCoin()
     {
         CoinInPoint = Instantiate(_coinPrefab, transform.position, Quaternion.identity);
-        Coin.OnDestroyed += Free;
+        Coin.Destroyed += Free;
     }
 }
